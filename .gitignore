@@ -27,7 +27,7 @@
 *.out
 *.app
 
-# Because we are using CMake
+# CMake stuff
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
@@ -35,3 +35,7 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
+
+# Sublime-specific
+*.sublime-project
+*.sublime-workspace
