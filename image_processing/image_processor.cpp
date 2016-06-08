@@ -9,7 +9,8 @@ using std::cout;
 using std::endl;
 
 // Image found at https://pixabay.com/no/bloom-blomstre-bud-gjeng-farge-2518/
-const std::string IMG_FNAME = "bloom_uncompressed.png";
+// const std::string IMG_FNAME = "bloom_uncompressed.png";
+const std::string IMG_FNAME = "bloom_small_compressed.png";
 const std::string IMG_FNAME_MODIFIED = "bloom_new.png";
 
 void convert_to_grayscale(std::vector<unsigned char>& image)
