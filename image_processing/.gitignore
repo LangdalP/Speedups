@@ -1,4 +1,3 @@
 
 # Don't want to push modified images
-digitalis_purpurea_new.png
-bloom_new.png
+*.png
