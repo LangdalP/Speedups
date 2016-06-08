@@ -16,7 +16,7 @@ void convert_to_grayscale(std::vector<unsigned char>& image)
 		r = image[i];
 		g = image[i + 1];
 		b = image[i + 2];
-		// Luminosity method from http://www.johndcook.com/blog/2009/08/24/algorithms-convert-color-grayscale/
+		// Luminosity method from http://docs.gimp.org/2.6/en/gimp-tool-desaturate.html
 		new_value = 0.21 * r + 0.72 * g + 0.07 * b;
 
 		image[i] = new_value;
