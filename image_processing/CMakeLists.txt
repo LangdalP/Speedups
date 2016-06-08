@@ -8,8 +8,5 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -march=native -mtune=native -O3")
 # Compile options for speed WITHOUT auto-vectorization
 # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -march=native -mtune=native -O3 -fno-tree-vectorize")
  
-set(SOURCES1 ./image_processor.cpp ./lodepng.cpp ./lodepng.h)
-add_executable(image_processor ${SOURCES1})
-
-set(SOURCES2 ./image_processor2.cpp ./stb_image.h ./stb_image_write.h)
-add_executable(image_processor2 ${SOURCES2})
+set(SOURCES ./image_processor.cpp ./lodepng.cpp ./lodepng.h)
+add_executable(image_processor ${SOURCES})
