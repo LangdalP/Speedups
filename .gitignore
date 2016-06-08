@@ -36,6 +36,9 @@ cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
 
-# Sublime-specific
+# Sublime Text files
 *.sublime-project
 *.sublime-workspace
+
+# VSCode files
+.vscode

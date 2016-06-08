@@ -1,13 +1,16 @@
 #include <iostream>
 #include <string>
 
+#include <ctime>
+
 #include "lodepng.h"
 
 using std::cout;
 using std::endl;
 
-const std::string IMG_FNAME = "digitalis_purpurea.png";
-const std::string IMG_FNAME_MODIFIED = "digitalis_purpurea_new.png";
+// Image found at https://pixabay.com/no/bloom-blomstre-bud-gjeng-farge-2518/
+const std::string IMG_FNAME = "bloom.png";
+const std::string IMG_FNAME_MODIFIED = "bloom_new.png";
 
 void convert_to_grayscale(std::vector<unsigned char>& image)
 {
@@ -29,6 +32,7 @@ int main(int argc, char const *argv[])
 {
 	std::vector<unsigned char> image;
 	unsigned width, height;
+	cout << "Starting decode" << endl;
 	unsigned error = lodepng::decode(image, width, height, IMG_FNAME, LCT_RGB);
 
 	if(error) {
@@ -36,12 +40,20 @@ int main(int argc, char const *argv[])
 		return -1;
 	}
 
+	clock_t before = clock();
+	cout << "Starting grayscale_conversion" << endl;
 	convert_to_grayscale(image);
+	clock_t after = clock();
+	double elapsed_secs = double(after - before) / CLOCKS_PER_SEC;
 
+	cout << "Starting encode" << endl;
 	error = lodepng::encode(IMG_FNAME_MODIFIED, image, width, height, LCT_RGB);
 
 	if(error) {
 		cout << "Encoder error " << error << ": "<< lodepng_error_text(error) << endl;
+		return -1;
 	}
+
+	cout << "Processor time used to convert to grayscale: " << elapsed_secs << endl;
 	return 0;
 }
