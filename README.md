@@ -1,5 +1,5 @@
 # Speedups
-This repository will contain examples of how you can speed up some programs in C++. I am planning on writing a series of articles on how to parallelize code using solutions such as MPI, OpenMP, CUDA, OpenCL, Cilk and SIMD (SSE/AVX), and the code used for these articles can be found here.
+This repository will contain examples of how you can speed up some programs in C++. I am planning on writing a series of articles on how to parallelize code using solutions such as MPI, OpenMP, Cilk, CUDA/OpenCL, plain threads, and SIMD (SSE/AVX). The code used for these articles will be uploaded here.
 
 ## Programs to speed up
 Currently I am deciding on what type of code to parallelize. Atleast one program will be some form of image processing.
