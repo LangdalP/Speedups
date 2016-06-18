@@ -108,17 +108,18 @@ void apply_blur_filter(
 int main(int argc, char const *argv[])
 {
 	image_data image = load_image_from_png_file(IMG_FNAME);
+	if (image.width == 0) return -1;
 
 	std::vector<unsigned char> image2_pixels(image.pixels.size());
 	image_data image2(image2_pixels, image.width, image.height);
 
 	using namespace std::chrono;
-
 	auto start_time = high_resolution_clock::now();
 	apply_blur_filter(image.pixels, image2.pixels, image.width, image.height, 11);
 	auto end_time = high_resolution_clock::now();
 
 	bool success = write_image_to_png_file(IMG_FNAME_MODIFIED, image2);	
+	if (!success) return -1;
 
 	cout << "Processor time used to process image: " << duration_cast<microseconds>(end_time - start_time).count() << " microseconds" << endl;
 	return 0;
