@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.9)
-project (ImageProcessing)
+project (ImageProcessor)
 
 # Compile options for speed with auto-vectorization
 # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -march=native -mtune=native -O3")
