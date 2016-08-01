@@ -42,3 +42,8 @@ CTestTestfile.cmake
 
 # VSCode files
 .vscode
+
+# Build directories
+Release/
+Debug/
+
