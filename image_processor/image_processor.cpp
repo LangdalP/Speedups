@@ -9,7 +9,8 @@ using std::endl;
 
 // Image found at https://pixabay.com/no/bloom-blomstre-bud-gjeng-farge-2518/
 // const std::string IMG_FNAME = "bloom_uncompressed.png";
-const std::string IMG_FNAME = "bloom_small_compressed.png";
+// const std::string IMG_FNAME = "bloom_small_compressed.png";
+const std::string IMG_FNAME = "bloom_small.png";
 const std::string IMG_FNAME_MODIFIED = "bloom_new.png";
 
 struct image_data {
@@ -103,7 +104,7 @@ void apply_blur_filter(
 			imageOut[i + 2] = blur_sum_b / (filterSize * filterSize);
 		}
 	}
-}
+	}
 
 int main(int argc, char const *argv[])
 {
