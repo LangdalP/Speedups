@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <omp.h>
 
 #include "lodepng.h"
 
@@ -49,24 +50,6 @@ bool write_image_to_png_file(std::string filename, image_data image)
 	return true;
 }
 
-void convert_to_grayscale(
-	const std::vector<unsigned char>& imageIn,
-	std::vector<unsigned char>& imageOut)
-{
-	unsigned char r, g, b, new_value;
-	for (size_t i = 0; i < imageIn.size(); i += 3) {
-		r = imageIn[i];
-		g = imageIn[i + 1];
-		b = imageIn[i + 2];
-		// Luminosity method from http://docs.gimp.org/2.6/en/gimp-tool-desaturate.html
-		new_value = 0.21 * r + 0.72 * g + 0.07 * b;
-
-		imageOut[i] = new_value;
-		imageOut[i + 1] = new_value;
-		imageOut[i + 2] = new_value;
-	}
-}
-
 void apply_blur_filter(
 	const std::vector<unsigned char>& imageIn,
 	std::vector<unsigned char>& imageOut,
@@ -79,6 +62,8 @@ void apply_blur_filter(
 	unsigned int end_x = width - start_coordinate;
 	unsigned int end_y = height - start_coordinate;
 
+    omp_set_num_threads(2);
+#pragma omp parallel for
 	for (unsigned int x = start_coordinate; x < end_x; ++x) {
 		for (unsigned int y = start_coordinate; y < end_y; ++y) {
 			const auto i = (y * width + x) * 3;
@@ -122,6 +107,7 @@ int main(int argc, char const *argv[])
 	bool success = write_image_to_png_file(IMG_FNAME_MODIFIED, image2);	
 	if (!success) return -1;
 
-	cout << "Processor time used to process image: " << duration_cast<microseconds>(end_time - start_time).count() << " microseconds" << endl;
+	cout << "Processor time used to process image: " 
+        << duration_cast<microseconds>(end_time - start_time).count() << " microseconds" << endl;
 	return 0;
 }
