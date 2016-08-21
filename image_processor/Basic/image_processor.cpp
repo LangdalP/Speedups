@@ -57,7 +57,6 @@ void apply_blur_filter(
 	const unsigned int height,
 	const unsigned int filterSize)
 {
-	// unsigned int blur_sum = 0;
 	const int start_coordinate = filterSize / 2;
 	const int end_x = width - start_coordinate;
 	const int end_y = height - start_coordinate;
