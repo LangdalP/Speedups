@@ -43,6 +43,9 @@ CTestTestfile.cmake
 # VSCode files
 .vscode
 
+# Vim files
+*.swp
+
 # Build directories
 Release/
 Debug/
