@@ -57,15 +57,14 @@ void apply_blur_filter(
 	const unsigned int height,
 	const unsigned int filterSize)
 {
-	// unsigned int blur_sum = 0;
-	unsigned int start_coordinate = filterSize / 2;
-	unsigned int end_x = width - start_coordinate;
-	unsigned int end_y = height - start_coordinate;
+	const int start_coordinate = filterSize / 2;
+	const int end_x = width - start_coordinate;
+	const int end_y = height - start_coordinate;
 
-    omp_set_num_threads(2);
+    omp_set_num_threads(8);
 #pragma omp parallel for
-	for (unsigned int x = start_coordinate; x < end_x; ++x) {
-		for (unsigned int y = start_coordinate; y < end_y; ++y) {
+	for (int x = start_coordinate; x < end_x; ++x) {
+		for (int y = start_coordinate; y < end_y; ++y) {
 			const auto i = (y * width + x) * 3;
 			unsigned int blur_sum_r = 0;
 			unsigned int blur_sum_g = 0;
