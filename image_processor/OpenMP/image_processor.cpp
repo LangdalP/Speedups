@@ -63,7 +63,7 @@ void apply_blur_filter(
 #pragma omp parallel for
     for (int x = start_coordinate; x < end_x; ++x) {
         for (int y = start_coordinate; y < end_y; ++y) {
-            const auto i = (y * width + x) * 3;
+            const auto index = (y * width + x) * 3;
             unsigned int blur_sum_r = 0;
             unsigned int blur_sum_g = 0;
             unsigned int blur_sum_b = 0;
@@ -74,16 +74,16 @@ void apply_blur_filter(
 
             for (unsigned int i = sum_start_x; i <= sum_end_x; ++i) {
                 for (unsigned int j = sum_start_y; j <= sum_end_y; ++j) {
-                    const auto sum_i = (j * width + i) * 3;
-                    blur_sum_r += imageIn[sum_i];
-                    blur_sum_g += imageIn[sum_i + 1];
-                    blur_sum_b += imageIn[sum_i + 2];
+                    const auto sum_index = (j * width + i) * 3;
+                    blur_sum_r += imageIn[sum_index];
+                    blur_sum_g += imageIn[sum_index + 1];
+                    blur_sum_b += imageIn[sum_index + 2];
                 }
             }
-
-            imageOut[i] = blur_sum_r / (filterSize * filterSize);
-            imageOut[i + 1] = blur_sum_g / (filterSize * filterSize);
-            imageOut[i + 2] = blur_sum_b / (filterSize * filterSize);
+:
+            imageOut[index] = blur_sum_r / (filterSize * filterSize);
+            imageOut[index + 1] = blur_sum_g / (filterSize * filterSize);
+            imageOut[index + 2] = blur_sum_b / (filterSize * filterSize);
         }
     }
 }
