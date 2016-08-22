@@ -75,20 +75,31 @@ void apply_blur_filter(
     for (int y = start_coordinate; y < end_y; ++y) {
         for (int x = start_coordinate; x < end_x; ++x) {
             // Add new row to line buffer
-            for (int idx = 0; idx < (int)line_buffer.size(); idx += 3) {
+            for (int lb_index = 0; lb_index < (int)line_buffer.size(); lb_index += 3) {
                 const int i = ((y + filterSize / 2) * width + x) * 3;
-                line_buffer[idx] += imageIn[i];
-                line_buffer[idx + 1] += imageIn[i + 1];
-                line_buffer[idx + 2] += imageIn[i + 2];
+                line_buffer[lb_index] += imageIn[i];
+                line_buffer[lb_index + 1] += imageIn[i + 1];
+                line_buffer[lb_index + 2] += imageIn[i + 2];
             }
-            const int i = (y * width + x) * 3;
-            unsigned int blur_sum_r = line_buffer[x * 3 - 3] + line_buffer[x * 3] + line_buffer[x * 3 + 3];
-            unsigned int blur_sum_g = line_buffer[x * 3 - 2] + line_buffer[x * 3 + 1] + line_buffer[x * 3 + 4];
-            unsigned int blur_sum_b = line_buffer[x * 3 - 1] + line_buffer[x * 3 + 2] + line_buffer[x * 3 + 5];
+            unsigned int blur_sum_r = 0;
+            unsigned int blur_sum_g = 0;
+            unsigned int blur_sum_b = 0;
 
-            imageOut[i] = blur_sum_r / (filterSize * filterSize);
-            imageOut[i + 1] = blur_sum_g / (filterSize * filterSize);
-            imageOut[i + 2] = blur_sum_b / (filterSize * filterSize);
+            const int sum_start_x = x - filterSize / 2;
+            const int sum_end_x = x + filterSize / 2;
+            const int lb_index_start = sum_start_x * 3;
+            const int lb_index_end = sum_end_x * 3;
+
+            for (int lb_index = lb_index_start; lb_index <= lb_index_end; lb_index += 3) {
+                blur_sum_r += line_buffer[lb_index];
+                blur_sum_g += line_buffer[lb_index + 1];
+                blur_sum_b += line_buffer[lb_index + 2];
+            }
+
+            const int index = (y * width + x) * 3;
+            imageOut[index] = blur_sum_r / (filterSize * filterSize);
+            imageOut[index + 1] = blur_sum_g / (filterSize * filterSize);
+            imageOut[index + 2] = blur_sum_b / (filterSize * filterSize);
 
             // Remove last row from line buffer
             for (int idx = 0; idx < (int)line_buffer.size(); idx += 3) {
