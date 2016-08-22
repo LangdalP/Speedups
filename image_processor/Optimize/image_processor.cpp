@@ -61,26 +61,32 @@ void apply_blur_filter(
 
     std::vector<unsigned int> line_buffer(width * 3);
 
+    // TODO: Some variables might not have to be calculated for each iteration (e.g. index). Increment instead.
+
     // Fill the line buffer
     for (int y = 0; y < (int)filterSize - 1; ++y) {
-        for (int x = 0; x < (int)line_buffer.size(); x += 3) {
-            const int i = (y * width + x) * 3;
-            line_buffer[x] += imageIn[i];
-            line_buffer[x + 1] += imageIn[i + 1];
-            line_buffer[x + 2] += imageIn[i + 2];
+        for (int x = 0; x < (int)width; ++x) {
+            const int index = (y * width + x) * 3;
+            const int lb_index = x * 3;
+            line_buffer[lb_index] += imageIn[index];
+            line_buffer[lb_index + 1] += imageIn[index + 1];
+            line_buffer[lb_index + 2] += imageIn[index + 2];
         }
     }
 
     // Iterate all pixels, one line of pixels at a time
     for (int y = start_coordinate; y < end_y; ++y) {
+        // Add new row to line buffer
+        for (int lb_x = 0; lb_x < (int)width; ++lb_x) {
+            const int lb_index = lb_x * 3;
+            const int index = ((y + filterSize / 2) * width + lb_x) * 3;
+            line_buffer[lb_index] += imageIn[index];
+            line_buffer[lb_index + 1] += imageIn[index + 1];
+            line_buffer[lb_index + 2] += imageIn[index + 2];
+        }
+
+        // Iterate along row of pixels, sum up and calculate averages
         for (int x = start_coordinate; x < end_x; ++x) {
-            // Add new row to line buffer
-            for (int lb_index = 0; lb_index < (int)line_buffer.size(); lb_index += 3) {
-                const int i = ((y + filterSize / 2) * width + x) * 3;
-                line_buffer[lb_index] += imageIn[i];
-                line_buffer[lb_index + 1] += imageIn[i + 1];
-                line_buffer[lb_index + 2] += imageIn[i + 2];
-            }
             unsigned int blur_sum_r = 0;
             unsigned int blur_sum_g = 0;
             unsigned int blur_sum_b = 0;
@@ -101,13 +107,15 @@ void apply_blur_filter(
             imageOut[index + 1] = blur_sum_g / (filterSize * filterSize);
             imageOut[index + 2] = blur_sum_b / (filterSize * filterSize);
 
-            // Remove last row from line buffer
-            for (int idx = 0; idx < (int)line_buffer.size(); idx += 3) {
-                const int i = ((y - filterSize / 2) * width + x) * 3;
-                line_buffer[idx] -= imageIn[i];
-                line_buffer[idx + 1] -= imageIn[i + 1];
-                line_buffer[idx + 2] -= imageIn[i + 2];
-            }
+        }
+
+        // Remove last row from line buffer
+        for (int lb_x = 0; lb_x < (int)width; ++lb_x) {
+            const int lb_index = lb_x * 3;
+            const int index = ((y - filterSize / 2) * width + lb_x) * 3;
+            line_buffer[lb_index] -= imageIn[index];
+            line_buffer[lb_index + 1] -= imageIn[index + 1];
+            line_buffer[lb_index + 2] -= imageIn[index + 2];
         }
     }
 
