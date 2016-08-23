@@ -61,8 +61,6 @@ void apply_blur_filter(
 
     std::vector<unsigned int> line_buffer(width * 3);
 
-    // TODO: Some variables might not have to be calculated for each iteration (e.g. index). Increment instead.
-
     // Fill the line buffer
     for (int y = 0; y < (int)filterSize - 1; ++y) {
         for (int x = 0; x < (int)width; ++x) {
