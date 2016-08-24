@@ -16,6 +16,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 find_package(OpenMP)
 if (OPENMP_FOUND)
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${OpenMP_CXX_FLAGS}")
+    set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${OpenMP_CXX_FLAGS}")
 endif()
 
 # Hack because MinGW is weird
